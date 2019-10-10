@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:vetores/pages/add_page.dart';
 import 'package:vetores/pages/config_page.dart';
 import 'package:vetores/pages/list_page.dart';
@@ -16,19 +18,23 @@ class _MainPageState extends State<MainPage> {
       tabBar: CupertinoTabBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.location),
+            icon: Icon(MdiIcons.mapOutline),
+            activeIcon: Icon(MdiIcons.map),
             title: Text('Mapa'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.photo_camera),
+            icon: Icon(MdiIcons.cameraOutline),
+            activeIcon: Icon(MdiIcons.camera),
             title: Text('Novo foco'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.eye),
+            icon: Icon(MdiIcons.clipboardListOutline),
+            activeIcon: Icon(MdiIcons.clipboardList),
             title: Text('Ver focos'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.gear),
+            icon: Icon(MdiIcons.settingsOutline),
+            activeIcon: Icon(MdiIcons.settings),
             title: Text('Ajustes'),
           ),
         ],
