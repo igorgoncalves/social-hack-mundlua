@@ -16,29 +16,31 @@ class _ConfigPageState extends State<ConfigPage> {
         ),
       ),
       child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Text('Texto'),
-            Column(
-              children: <Widget>[
-                Text('Deseja compartilhar seus dados?'),
-                CupertinoSwitch(
-                  onChanged: (bool value) {
-                    setState(
-                      () {
-                        _share = value;
-                      },
-                    );
-                  },
-                  value: _share,
-                ),
-              ],
-            ),
-            Text('Texto'),
-            Text('Texto'),
-            Text('Texto'),
-            Text('Deletar todos os meus dados'),
-          ],
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Text('Texto'),
+              Column(
+                children: <Widget>[
+                  Text('Deseja compartilhar seus dados?'),
+                  CupertinoSwitch(
+                    onChanged: (bool value) {
+                      setState(
+                        () {
+                          _share = value;
+                        },
+                      );
+                    },
+                    value: _share,
+                  ),
+                ],
+              ),
+              Text('Texto'),
+              Text('Texto'),
+              Text('Texto'),
+              Text('Deletar todos os meus dados'),
+            ],
+          ),
         ),
       ),
     );
