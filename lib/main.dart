@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
       title: 'Vetores',
       color: Colors.redAccent,
       theme: CupertinoThemeData(
-        primaryColor: Colors.redAccent,
+        primaryColor: Colors.redAccent[100],
         textTheme: CupertinoTextThemeData(
           navTitleTextStyle: TextStyle(
-              color: Colors.redAccent,
+              color: Colors.redAccent[100],
               fontWeight: FontWeight.bold,
               fontSize: 24),
         ),
