@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
     return CupertinoApp(
       debugShowCheckedModeBanner: false,
       title: 'Vetores',
+      color: Colors.redAccent,
       theme: CupertinoThemeData(
         primaryColor: Colors.redAccent,
         textTheme: CupertinoTextThemeData(
