@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ConfigPage extends StatefulWidget {
   @override
@@ -24,6 +26,7 @@ class _ConfigPageState extends State<ConfigPage> {
                 children: <Widget>[
                   Text('Deseja compartilhar seus dados?'),
                   CupertinoSwitch(
+                    activeColor: Colors.redAccent,
                     onChanged: (bool value) {
                       setState(
                         () {
@@ -38,7 +41,12 @@ class _ConfigPageState extends State<ConfigPage> {
               Text('Texto'),
               Text('Texto'),
               Text('Texto'),
-              Text('Deletar todos os meus dados'),
+              CupertinoButton(
+                child: Text('Deletar todos os meus dados'),
+                onPressed: () {
+                  print('Deletar todos os meus dados');
+                },
+              ),
             ],
           ),
         ),

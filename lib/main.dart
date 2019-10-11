@@ -21,8 +21,9 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.redAccent,
         textTheme: CupertinoTextThemeData(
           navTitleTextStyle: TextStyle(
-            color: Colors.redAccent,
-          ),
+              color: Colors.redAccent,
+              fontWeight: FontWeight.bold,
+              fontSize: 24),
         ),
       ),
       home: MainPage(),
