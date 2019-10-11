@@ -22,7 +22,7 @@ class _ConfigPageState extends State<ConfigPage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -36,6 +36,7 @@ class _ConfigPageState extends State<ConfigPage> {
                     )
                   ],
                 ),
+                Divider(),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -54,8 +55,11 @@ class _ConfigPageState extends State<ConfigPage> {
                     ),
                   ],
                 ),
+                Divider(),
                 Text('Entre em contato'),
+                Divider(),
                 Text('Ajuda sobre o aplicativo'),
+                Divider(),
                 CupertinoButton(
                   child: Text('Sobre o aplicativo'),
                   onPressed: () {
@@ -70,6 +74,7 @@ class _ConfigPageState extends State<ConfigPage> {
                     );
                   },
                 ),
+                Divider(),
                 CupertinoButton(
                   child: Text('Deletar todos os meus dados'),
                   onPressed: () {

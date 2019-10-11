@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vetores/pages/focodetail_page.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -80,6 +81,19 @@ class MapSampleState extends State<MapSample> {
       Marker(
         markerId: MarkerId('Unit'),
         draggable: false,
+        infoWindow: InfoWindow(
+            title: 'Foco 1',
+            onTap: () {
+              print('Foco 1');
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  title: 'Teste',
+                  builder: (context) {
+                    return FocoDetailPage();
+                  },
+                ),
+              );
+            }),
         onTap: () {
           print('Unit Mano');
         },
