@@ -34,11 +34,17 @@ class _AddPageState extends State<AddPage> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text(
-          'Adicionar foco',
+          'Novo foco',
         ),
       ),
-      child: Center(
-        child: Text('$_currentPosition'),
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Text('$_currentPosition'),
+            ],
+          ),
+        ),
       ),
     );
   }
