@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:vetores/pages/add_page.dart';
-import 'package:vetores/pages/config_page.dart';
-import 'package:vetores/pages/list_page.dart';
-import 'package:vetores/pages/map_page.dart';
+import 'package:vetores/src/ui/pages/add_page.dart';
+import 'package:vetores/src/ui/pages/config_page.dart';
+import 'package:vetores/src/ui/pages/list_page.dart';
+import 'package:vetores/src/ui/pages/map_page.dart';
+
 
 class MainPage extends StatefulWidget {
   @override
