@@ -2,6 +2,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:vetores/src/bloc/focos_bloc.dart';
+import 'package:vetores/src/models/foco.model.dart';
 import 'package:vetores/src/resources/services/foco_service.dart';
 
 class Injector extends StatelessWidget {
@@ -19,7 +20,12 @@ class Injector extends StatelessWidget {
         Bloc((i) => FocosBloc(i.get<FocoService>())),
       ],
       dependencies: [
-        Dependency((i) => FocoService()),
+        // Inject Models
+        Dependency((i) => Foco()),        
+
+        // Inject Services
+        Dependency((i) => FocoService(i.get<Foco>())),
+
       ],
     );
   }

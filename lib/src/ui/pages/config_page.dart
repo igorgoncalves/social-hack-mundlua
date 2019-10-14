@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vetores/src/config/theme_config.dart';
 import 'package:vetores/src/ui/pages/about_page.dart';
 
 
@@ -43,7 +44,7 @@ class _ConfigPageState extends State<ConfigPage> {
                       child: Text('Deseja compartilhar seus dados?'),
                     ),
                     CupertinoSwitch(
-                      activeColor: Colors.redAccent[100],
+                      activeColor: ThemeConfig().primaryColor[100],
                       onChanged: (bool value) {
                         setState(
                           () {
