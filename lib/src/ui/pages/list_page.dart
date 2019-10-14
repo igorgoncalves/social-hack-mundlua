@@ -1,5 +1,9 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vetores/src/bloc/focos_bloc.dart';
+import 'package:vetores/src/models/foco.model.dart';
+import 'package:vetores/src/ui/components/foco_item_list.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -7,8 +11,11 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+  final FocosBloc bloc = BlocProvider.getBloc<FocosBloc>();
+
   @override
   Widget build(BuildContext context) {
+    bloc.fetchFocos();
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text(
@@ -17,72 +24,35 @@ class _ListPageState extends State<ListPage> {
       ),
       child: SafeArea(
         child: Center(
-          child: CupertinoScrollbar(
-            child: ListView(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FocoSumario(
-                    title: 'Titulo',
-                    vectorName: 'Aedes Aegypti',
-                    date: 'hoje',
-                  ),
-                ),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FocoSumario(
-                    title: 'Titulo',
-                    vectorName: 'Aedes Aegypti',
-                    date: 'hoje',
-                  ),
-                ),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FocoSumario(
-                    title: 'Titulo',
-                    vectorName: 'Aedes Aegypti',
-                    date: 'hoje',
-                  ),
-                ),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FocoSumario(
-                    title: 'Titulo',
-                    vectorName: 'Aedes Aegypti',
-                    date: 'hoje',
-                  ),
-                ),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FocoSumario(
-                    title: 'Titulo',
-                    vectorName: 'Aedes Aegypti',
-                    date: 'hoje',
-                  ),
-                ),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FocoSumario(
-                    title: 'Titulo',
-                    vectorName: 'Aedes Aegypti',
-                    date: 'hoje',
-                  ),
-                ),
-                Divider(),
-              ],
-            ),
+          child: StreamBuilder(
+            stream: bloc.allFocos,
+            builder: (context, AsyncSnapshot<List<Foco>> snapshot) {
+              if (snapshot.hasData) {
+                return this._buildListFocos(snapshot.data);
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              return Center(child: CircularProgressIndicator());
+            },
           ),
         ),
       ),
     );
   }
-}
 
+  Widget _buildListFocos(List<Foco> pontosDeFoco) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) => FocoItemWidget(
+        lat: pontosDeFoco[index].lat,
+        lng: pontosDeFoco[index].lng,
+        imagem: pontosDeFoco[index].imagem.url,
+      ),
+      itemCount: pontosDeFoco.length,
+    );
+  }
+}
+// TODO: Verificar design do elemento da lista, jogar no diretorio components
+// caso precise reaproveitar esse widget
 class FocoSumario extends StatelessWidget {
   final String title, vectorName, date;
   FocoSumario({this.title, this.date, this.vectorName});
