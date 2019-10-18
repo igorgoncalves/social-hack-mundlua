@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:vetores/src/config/theme_config.dart';
 import 'package:vetores/src/ui/pages/about_page.dart';
 
-
 class ConfigPage extends StatefulWidget {
   @override
   _ConfigPageState createState() => _ConfigPageState();
@@ -27,17 +26,32 @@ class _ConfigPageState extends State<ConfigPage> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Text(
-                        'Ajude a identificar os focos de vetores e faça a diferença contribuindo nas pesquisas.'),
-                    CupertinoButton(
-                      child: Text(
-                        'Políticas de Privacidade',
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: 64, top: 32, bottom: 16),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Ajude a identificar os focos de vetores e faça a diferença contribuindo nas pesquisas.',
+                            textAlign: TextAlign.left,
+                            style:
+                                TextStyle(color: CupertinoColors.inactiveGray),
+                          ),
+                          CupertinoButton(
+                            padding: EdgeInsets.all(0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Políticas de Privacidade',
+                              ),
+                            ),
+                            onPressed: () {},
+                          )
+                        ],
                       ),
-                      onPressed: () {},
-                    )
+                    ),
                   ],
                 ),
-                Divider(),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -62,7 +76,14 @@ class _ConfigPageState extends State<ConfigPage> {
                 Text('Ajuda sobre o aplicativo'),
                 Divider(),
                 CupertinoButton(
-                  child: Text('Sobre o aplicativo'),
+                  padding: EdgeInsets.all(0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Sobre o aplicativo',
+                      style: TextStyle(color: CupertinoColors.black),
+                    ),
+                  ),
                   onPressed: () {
                     print('AboutPage');
                     Navigator.of(context).push(
@@ -77,11 +98,22 @@ class _ConfigPageState extends State<ConfigPage> {
                 ),
                 Divider(),
                 CupertinoButton(
-                  child: Text('Deletar todos os meus dados'),
+                  padding: EdgeInsets.all(0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Deletar todos os meus dados',
+                    ),
+                  ),
                   onPressed: () {
                     print('Deletar todos os meus dados');
                   },
                 ),
+                Divider(),
+                Text(
+                  'Versão 0.1.0',
+                  style: TextStyle(color: CupertinoColors.lightBackgroundGray),
+                )
               ],
             ),
           ),

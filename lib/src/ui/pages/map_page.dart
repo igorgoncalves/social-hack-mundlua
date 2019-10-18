@@ -124,17 +124,17 @@ class MapSampleState extends State<MapSample> {
       ),
     );
 
-    pontos.add(LatLng(-10.9689128 + 0.0005, -37.0592988 + 0.0005));
-    pontos.add(LatLng(-10.9689128 - 0.0005, -37.0592988 + 0.0005));
-    pontos.add(LatLng(-10.9689128 - 0.0005, -37.0592988 - 0.0005));
-    pontos.add(LatLng(-10.9689128 + 0.0005, -37.0592988 - 0.0005));
-    poligonos.add(
-      Polygon(
-          polygonId: PolygonId('Meu Saco'),
-          fillColor: Colors.blue.withOpacity(0.5),
-          strokeColor: Colors.redAccent,
-          points: pontos),
-    );
+    // pontos.add(LatLng(-10.9689128 + 0.0005, -37.0592988 + 0.0005));
+    // pontos.add(LatLng(-10.9689128 - 0.0005, -37.0592988 + 0.0005));
+    // pontos.add(LatLng(-10.9689128 - 0.0005, -37.0592988 - 0.0005));
+    // pontos.add(LatLng(-10.9689128 + 0.0005, -37.0592988 - 0.0005));
+    // poligonos.add(
+    //   Polygon(
+    //       polygonId: PolygonId('Meu Saco'),
+    //       fillColor: Colors.blue.withOpacity(0.5),
+    //       strokeColor: Colors.redAccent,
+    //       points: pontos),
+    // );
   }
 
   @override
@@ -149,8 +149,8 @@ class MapSampleState extends State<MapSample> {
       myLocationButtonEnabled: true,
       myLocationEnabled: true,
       markers: Set.from(marcas),
-      circles: Set.from(circulos),
-      polygons: Set.from(poligonos),
+      // circles: Set.from(circulos),
+      // polygons: Set.from(poligonos),
     );
   }
 

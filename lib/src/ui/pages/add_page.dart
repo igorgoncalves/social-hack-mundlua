@@ -44,6 +44,7 @@ class _AddPageState extends State<AddPage> {
     _getCurrentLocation();
   }
 
+  var _selectedIndexValue;
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -60,7 +61,7 @@ class _AddPageState extends State<AddPage> {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
-                  Text('$_currentPosition'),
+                  Text("Registro fotográfico"),
                   Container(
                     width: 200,
                     height: 200,
@@ -92,7 +93,7 @@ class _AddPageState extends State<AddPage> {
                             fit: BoxFit.scaleDown,
                           ),
                   ),
-                  Text('$_currentPosition'),
+                  Divider(),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
                     child: Container(
@@ -101,8 +102,32 @@ class _AddPageState extends State<AddPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: MapFoco(),
+                      child: MapFoco(
+                        myPosition: _currentPosition,
+                      ),
                     ),
+                  ),
+                  Divider(),
+                  // Text('Veores relacionados ao foco:'),
+                  // CupertinoSegmentedControl(
+                  //   children: {
+                  //     0: Text("Aedes Aegypti"),
+                  //     1: Text("Bar"),
+                  //   },
+                  //   groupValue: _selectedIndexValue,
+                  //   onValueChanged: (value) {
+                  //     setState(() => _selectedIndexValue = value);
+                  //   },
+                  // ),
+                  CupertinoButton(
+                    padding: EdgeInsets.all(8),
+                    borderRadius: BorderRadius.circular(8),
+                    color: CupertinoColors.activeGreen,
+                    disabledColor: CupertinoColors.inactiveGray,
+                    child: Text("Enviar"),
+                    onPressed: () {
+                      print("Eniado");
+                    },
                   ),
                 ],
               ),
@@ -115,11 +140,14 @@ class _AddPageState extends State<AddPage> {
 }
 
 class MapFoco extends StatefulWidget {
+  final Position myPosition;
+
+  const MapFoco({Key key, this.myPosition}) : super(key: key);
   @override
-  State<MapFoco> createState() => MapFocoState();
+  State<MapFoco> createState() => _MapFocoState();
 }
 
-class MapFocoState extends State<MapFoco> {
+class _MapFocoState extends State<MapFoco> {
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -134,20 +162,25 @@ class MapFocoState extends State<MapFoco> {
       zoom: 5.151926040649414);
 
   List<Marker> marcas = [];
-  List<Circle> circulos = [];
-  List<LatLng> pontos = [];
-  List<Polygon> poligonos = [];
+
+  BitmapDescriptor myIcon;
 
   @override
   void initState() {
     // TODO: implement initState
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(48, 48)), 'assets/icons/marker.png')
+        .then((onValue) {
+      myIcon = onValue;
+    });
     super.initState();
     marcas.add(
       Marker(
         markerId: MarkerId('Unit'),
+        icon: myIcon,
         draggable: false,
         infoWindow: InfoWindow(
-            title: 'Foco 1',
+            title: 'O fco esta aqui!!!',
             onTap: () {
               print('Foco 1');
             }),
@@ -171,8 +204,6 @@ class MapFocoState extends State<MapFoco> {
       myLocationButtonEnabled: true,
       myLocationEnabled: true,
       markers: Set.from(marcas),
-      circles: Set.from(circulos),
-      polygons: Set.from(poligonos),
     );
   }
 
