@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddPage extends StatefulWidget {
@@ -12,6 +14,7 @@ class AddPage extends StatefulWidget {
 
 class _AddPageState extends State<AddPage> {
   Position _currentPosition;
+  File _image;
 
   void _getCurrentLocation() {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
@@ -24,6 +27,14 @@ class _AddPageState extends State<AddPage> {
       });
     }).catchError((e) {
       print(e);
+    });
+  }
+
+  Future _getImage() async {
+    await ImagePicker.pickImage(source: ImageSource.camera).then((img) {
+      setState(() {
+        _image = img;
+      });
     });
   }
 
@@ -53,10 +64,33 @@ class _AddPageState extends State<AddPage> {
                   Container(
                     width: 200,
                     height: 200,
+                    padding: EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(25),
                     ),
+                    child: _image == null
+                        ? OutlineButton(
+                            borderSide:
+                                BorderSide(color: Colors.red[200], width: 4),
+                            onPressed: () {
+                              _getImage();
+                            },
+                            child: Center(
+                              heightFactor: 250,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(Icons.camera_alt),
+                                  Text('Tire uma foto do foco')
+                                ],
+                              ),
+                            ),
+                          )
+                        : Image.file(
+                            _image,
+                            fit: BoxFit.scaleDown,
+                          ),
                   ),
                   Text('$_currentPosition'),
                   ClipRRect(
@@ -65,7 +99,6 @@ class _AddPageState extends State<AddPage> {
                       width: 200,
                       height: 200,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: MapFoco(),
