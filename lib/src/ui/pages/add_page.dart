@@ -61,6 +61,19 @@ class _AddPageState extends State<AddPage> {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 128, top: 32, bottom: 32),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'Ajude a identificar os focos de vetores e faça a diferença contribuindo nas pesquisas.',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: CupertinoColors.inactiveGray),
+                        ),
+                      ],
+                    ),
+                  ),
                   Text("Registro fotográfico"),
                   Container(
                     width: 200,
@@ -72,8 +85,8 @@ class _AddPageState extends State<AddPage> {
                     ),
                     child: _image == null
                         ? OutlineButton(
-                            borderSide:
-                                BorderSide(color: Colors.red[200], width: 4),
+                            borderSide: BorderSide(
+                                color: CupertinoColors.activeBlue, width: 4),
                             onPressed: () {
                               _getImage();
                             },
@@ -94,6 +107,8 @@ class _AddPageState extends State<AddPage> {
                           ),
                   ),
                   Divider(),
+                  Text("Localização"),
+
                   ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
                     child: Container(
