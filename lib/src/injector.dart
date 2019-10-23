@@ -5,6 +5,9 @@ import 'package:vetores/src/bloc/focos_bloc.dart';
 import 'package:vetores/src/models/foco.model.dart';
 import 'package:vetores/src/resources/services/foco_service.dart';
 
+import 'bloc/preferencias_bloc.dart';
+import 'resources/services/preferencias_service.dart';
+
 class Injector extends StatelessWidget {
   // This widget is the root of your application.
   final Widget child;
@@ -18,6 +21,8 @@ class Injector extends StatelessWidget {
       //Adicionar blocs para injeção de dependencia
       blocs: [
         Bloc((i) => FocosBloc(i.get<FocoService>())),
+        Bloc((i) => PreferenciasBloc(i.get<PreferenciasService>())),
+        
       ],
       dependencies: [
         // Inject Models
@@ -25,6 +30,7 @@ class Injector extends StatelessWidget {
 
         // Inject Services
         Dependency((i) => FocoService(i.get<Foco>())),
+        Dependency((i) => PreferenciasService()),
 
       ],
     );

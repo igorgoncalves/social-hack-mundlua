@@ -12,11 +12,17 @@ class PreferenciasBloc extends BlocBase {
   
   PreferenciasBloc(this._service);
   
-  Observable<Preferencias> get allFocos => _prefsController.stream;
+  Observable<Preferencias> get allPreferences => _prefsController.stream;
 
   loadPrefs() async {
     Preferencias prefs = await _service.getPreferencias();
     _prefsController.sink.add(prefs);
+  }
+
+   changePrefs(Preferencias prefs) async {
+    _service.save(prefs);
+
+    await loadPrefs();
   }
   
   @override
