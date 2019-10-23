@@ -43,8 +43,7 @@ class _AddPageState extends State<AddPage> {
     super.initState();
     _getCurrentLocation();
   }
-
-  var _selectedIndexValue;
+  
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(

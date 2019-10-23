@@ -15,8 +15,7 @@ class _ConfigPageState extends State<ConfigPage> {
   final PreferenciasBloc bloc = BlocProvider.getBloc<PreferenciasBloc>();
 
   @override
-  Widget build(BuildContext context) {
-    bool _share = true;
+  Widget build(BuildContext context) {    
     bloc.loadPrefs();
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(

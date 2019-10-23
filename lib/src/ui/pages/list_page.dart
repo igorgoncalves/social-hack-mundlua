@@ -45,8 +45,8 @@ class _ListPageState extends State<ListPage> {
   Widget _buildListFocos(List<Foco> pontosDeFoco) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) => FocoItemWidget(
-        lat: pontosDeFoco[index].lat,
-        lng: pontosDeFoco[index].lng,
+        lat: pontosDeFoco[index].coordenadas.latitude,
+        lng: pontosDeFoco[index].coordenadas.longitude,
         imagem: pontosDeFoco[index].imagem.url,
       ),
       itemCount: pontosDeFoco.length,

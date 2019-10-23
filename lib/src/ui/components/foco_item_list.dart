@@ -1,11 +1,13 @@
+
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vetores/src/config/theme_config.dart';
 
 class FocoItemWidget extends StatelessWidget {
-  final String lat;
-  final String lng;
+  final double lat;
+  final double lng;
   final String imagem;
 
   const FocoItemWidget({

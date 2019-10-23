@@ -6,7 +6,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vetores/src/bloc/focos_bloc.dart';
-import 'package:vetores/src/config/theme_config.dart';
 import 'package:vetores/src/models/foco.model.dart';
 import 'package:vetores/src/ui/pages/focodetail_page.dart';
 
@@ -48,8 +47,7 @@ class _MapPageState extends State<MapPage> {
         // forceWebView: true,
       );
     } else {
-      throw 'Could not launch $url';
-      print('deu ruim');
+      throw 'Could not launch $url';      
     }
   }
 }
@@ -153,36 +151,36 @@ class MapSampleState extends State<MapSample> {
         if (snapshot.hasData) {
           // List<Foco> pontosDeFoco = List<Foco> snapshot.data.;
           // return Text(snapshot.data[0].lat);
+          print(snapshot.data);
           for (var data in snapshot.data) {
-            if (data.lat != 'lat' && data.lng != 'lng') {
-              print("lat: ${data.lat} | lng:${data.lng}");
-              marcas.add(
-                Marker(
-                  markerId: MarkerId('${data.imagem.name}'),
-                  draggable: false,
-                  infoWindow: InfoWindow(
-                    title: data.imagem.name,
-                    snippet: data.imagem.url,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        CupertinoPageRoute(
-                          title: 'Detalhes do foco: ${data.imagem.name}',
-                          settings: RouteSettings(name: '/details'),
-                          builder: (context) {
-                            return FocoDetailPage();
-                          },
-                        ),
-                      );
-                    },
-                  ),
+            print(
+                "lat: ${data.coordenadas.latitude} | lng:${data.coordenadas.longitude}");
+            marcas.add(
+              Marker(
+                markerId: MarkerId('${data.imagem.name}'),
+                draggable: false,
+                infoWindow: InfoWindow(
+                  title: data.imagem.name,
+                  snippet: data.imagem.url,
                   onTap: () {
-                    print('${data.imagem.name}');
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        title: 'Detalhes do foco: ${data.imagem.name}',
+                        settings: RouteSettings(name: '/details'),
+                        builder: (context) {
+                          return FocoDetailPage();
+                        },
+                      ),
+                    );
                   },
-                  position:
-                      LatLng(double.parse(data.lat), double.parse(data.lat)),
                 ),
-              );
-            }
+                onTap: () {
+                  print('${data.imagem.name}');
+                },
+                position:
+                    LatLng(data.coordenadas.latitude, data.coordenadas.longitude),
+              ),
+            );
           }
 
           return GoogleMap(

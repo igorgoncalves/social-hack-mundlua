@@ -13,16 +13,14 @@ class Foco extends ParseObject implements ParseCloneable {
   clone(Map map) => Foco.clone()..fromJson(map);
 
   static const String _keyTableName = 'Foco';
-  static const String keyLat = 'lat';
-  static const String keyLng = 'lng';
-  static const String keyImagem = 'imagem';
+  static const String keyCoordenadas = 'coordenadas';
+  static const String keyImagem = 'foto';
+  
 
-  String get lat => get<String>(keyLat);
-  set lat(String lat) => set<String>(keyLat, lat);
-
-  String get lng => get<String>(keyLng);
-  set lng(String lng) => set<String>(keyLng, lng);
+  ParseGeoPoint get coordenadas => get<ParseGeoPoint>(keyCoordenadas);
+  set coordenadas(ParseGeoPoint coordenadas) => set<ParseGeoPoint>(keyCoordenadas, coordenadas);
 
   ParseFile get imagem => get<ParseFile>(keyImagem);
   set imagem(ParseFile imagem) => set<ParseFile>(keyImagem, imagem);  
+  
 }

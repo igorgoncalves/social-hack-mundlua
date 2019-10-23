@@ -23,6 +23,5 @@ class _FocoDetailPageState extends State<FocoDetailPage> {
         )),
       ),
     );
-    ;
   }
 }
