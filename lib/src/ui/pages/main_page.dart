@@ -17,38 +17,49 @@ class _MainPageState extends State<MainPage> {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         backgroundColor: CupertinoColors.white,
-        currentIndex: 2,
         border:
             Border(top: BorderSide(color: CupertinoColors.lightBackgroundGray)),
         items: [
           BottomNavigationBarItem(
-            icon: Icon(
-              MdiIcons.mapOutline,
-              size: 24,
+            icon: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Icon(
+                MdiIcons.mapOutline,
+                size: 24,
+              ),
             ),
             activeIcon: Icon(MdiIcons.map),
             title: Text('Mapa'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              MdiIcons.cameraOutline,
-              size: 24,
+            icon: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Icon(
+                MdiIcons.cameraOutline,
+                size: 24,
+              ),
             ),
             activeIcon: Icon(MdiIcons.camera),
             title: Text('Novo foco'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              MdiIcons.clipboardListOutline,
-              size: 24,
+            icon: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Icon(
+                MdiIcons.clipboardListOutline,
+                size: 24,
+              ),
             ),
             activeIcon: Icon(MdiIcons.clipboardList),
             title: Text('Ver focos'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              MdiIcons.settingsOutline,
-              size: 24,
+            icon: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Icon(
+                MdiIcons.settingsOutline,
+                size: 24,
+              ),
             ),
             activeIcon: Icon(MdiIcons.settings),
             title: Text('Ajustes'),

@@ -32,9 +32,9 @@ class _ConfigPageState extends State<ConfigPage> {
               child: StreamBuilder(
                   stream: bloc.allPreferences,
                   builder: (context, AsyncSnapshot<Preferencias> snapshot) {
-                    if(snapshot.hasData){
+                    if (snapshot.hasData) {
                       return _listPreferences(snapshot.data, context);
-                    }else{
+                    } else {
                       return Center(child: CircularProgressIndicator());
                     }
                   })),
@@ -65,9 +65,7 @@ class _ConfigPageState extends State<ConfigPage> {
                         'Políticas de Privacidade',
                       ),
                     ),
-                    onPressed: () {
-                      
-                    },
+                    onPressed: () {},
                   )
                 ],
               ),
@@ -81,7 +79,7 @@ class _ConfigPageState extends State<ConfigPage> {
             ),
             CupertinoSwitch(
               activeColor: ThemeConfig().primaryColor[100],
-              onChanged: (bool value) {                
+              onChanged: (bool value) {
                 bloc.changePrefs(Preferencias(sharePersonalData: value));
               },
               value: prefs.sharePersonalData,
