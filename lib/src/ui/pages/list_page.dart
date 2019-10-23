@@ -18,6 +18,8 @@ class _ListPageState extends State<ListPage> {
     bloc.fetchFocos();
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        backgroundColor: CupertinoColors.white,
+        border: Border(bottom: BorderSide(color: CupertinoColors.white)),
         middle: Text(
           'Ver focos',
         ),
@@ -51,6 +53,7 @@ class _ListPageState extends State<ListPage> {
     );
   }
 }
+
 // TODO: Verificar design do elemento da lista, jogar no diretorio components
 // caso precise reaproveitar esse widget
 class FocoSumario extends StatelessWidget {

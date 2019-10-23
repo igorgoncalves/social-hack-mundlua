@@ -49,6 +49,8 @@ class _AddPageState extends State<AddPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        backgroundColor: CupertinoColors.white,
+        border: Border(bottom: BorderSide(color: CupertinoColors.white)),
         middle: Text(
           'Novo foco',
         ),
@@ -108,7 +110,6 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Divider(),
                   Text("Localização"),
-
                   ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
                     child: Container(

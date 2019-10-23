@@ -1,10 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vetores/src/bloc/focos_bloc.dart';
+import 'package:vetores/src/config/theme_config.dart';
+import 'package:vetores/src/models/foco.model.dart';
 import 'package:vetores/src/ui/pages/focodetail_page.dart';
 
 class MapPage extends StatefulWidget {
@@ -17,6 +20,8 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        backgroundColor: CupertinoColors.white,
+        border: Border(bottom: BorderSide(color: CupertinoColors.white)),
         trailing: CupertinoButton(
           child: Icon(MdiIcons.helpCircleOutline),
           onPressed: () {
@@ -55,6 +60,8 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
+  final FocosBloc bloc = BlocProvider.getBloc<FocosBloc>();
+
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -113,8 +120,8 @@ class MapSampleState extends State<MapSample> {
 
     circulos.add(
       Circle(
-        fillColor: Colors.amber.withOpacity(0.25),
-        strokeColor: Colors.black,
+        fillColor: CupertinoColors.activeOrange.withOpacity(0.25),
+        strokeColor: CupertinoColors.black,
         center: LatLng(-10.9689128, -37.0592988),
         radius: 50,
         circleId: CircleId('Meu ovo'),
@@ -123,7 +130,7 @@ class MapSampleState extends State<MapSample> {
         },
       ),
     );
-
+    // Polygon example
     // pontos.add(LatLng(-10.9689128 + 0.0005, -37.0592988 + 0.0005));
     // pontos.add(LatLng(-10.9689128 - 0.0005, -37.0592988 + 0.0005));
     // pontos.add(LatLng(-10.9689128 - 0.0005, -37.0592988 - 0.0005));
@@ -139,18 +146,63 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      rotateGesturesEnabled: true,
-      mapType: MapType.normal,
-      initialCameraPosition: _kGooglePlex,
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
+    bloc.fetchFocos();
+    return StreamBuilder(
+      stream: bloc.allFocos,
+      builder: (context, AsyncSnapshot<List<Foco>> snapshot) {
+        if (snapshot.hasData) {
+          // List<Foco> pontosDeFoco = List<Foco> snapshot.data.;
+          // return Text(snapshot.data[0].lat);
+          for (var data in snapshot.data) {
+            if (data.lat != 'lat' && data.lng != 'lng') {
+              print("lat: ${data.lat} | lng:${data.lng}");
+              marcas.add(
+                Marker(
+                  markerId: MarkerId('${data.imagem.name}'),
+                  draggable: false,
+                  infoWindow: InfoWindow(
+                    title: data.imagem.name,
+                    snippet: data.imagem.url,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          title: 'Detalhes do foco: ${data.imagem.name}',
+                          settings: RouteSettings(name: '/details'),
+                          builder: (context) {
+                            return FocoDetailPage();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  onTap: () {
+                    print('${data.imagem.name}');
+                  },
+                  position:
+                      LatLng(double.parse(data.lat), double.parse(data.lat)),
+                ),
+              );
+            }
+          }
+
+          return GoogleMap(
+            rotateGesturesEnabled: true,
+            mapType: MapType.normal,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
+            markers: Set.from(marcas),
+            // circles: Set.from(circulos),
+            // polygons: Set.from(poligonos),
+          );
+        } else if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        }
+        return Center(child: CircularProgressIndicator());
       },
-      myLocationButtonEnabled: true,
-      myLocationEnabled: true,
-      markers: Set.from(marcas),
-      // circles: Set.from(circulos),
-      // polygons: Set.from(poligonos),
     );
   }
 

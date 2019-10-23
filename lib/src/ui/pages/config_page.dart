@@ -14,6 +14,8 @@ class _ConfigPageState extends State<ConfigPage> {
     bool _share = true;
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        backgroundColor: CupertinoColors.white,
+        border: Border(bottom: BorderSide(color: CupertinoColors.white)),
         middle: Text(
           'Ajustes',
         ),
