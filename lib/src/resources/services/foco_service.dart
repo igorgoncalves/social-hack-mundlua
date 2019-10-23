@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:vetores/src/models/foco.model.dart';
 
@@ -7,13 +8,13 @@ class FocoService {
 
   FocoService(this._focoDataAccess);
 
-  Future add(String lat, String lng, [File imagem]) async {
+  Future add(LatLng coordenadas, [File imagem]) async {
     final parseFile = ParseFile(imagem);
+    final geoPoint =  ParseGeoPoint(latitude: coordenadas.latitude, longitude: coordenadas.longitude);
     
     var item = this._focoDataAccess;
-    item.set('lat', lat);
-    item.set('lng', lng);
-    item.set('imagem', parseFile);
+    item.set('coordenadas', geoPoint);
+    item.set('foto', parseFile);
 
     return await item.save();
   }

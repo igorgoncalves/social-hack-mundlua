@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vetores/src/bloc/focos_bloc.dart';
 
 class AddPage extends StatefulWidget {
   @override
@@ -13,6 +15,8 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPageState extends State<AddPage> {
+  final FocosBloc bloc = BlocProvider.getBloc<FocosBloc>();
+
   Position _currentPosition;
   File _image;
 
@@ -22,9 +26,8 @@ class _AddPageState extends State<AddPage> {
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
+          print(position);
+      bloc.setCoordenadas(LatLng(position.latitude, position.longitude));
     }).catchError((e) {
       print(e);
     });
@@ -32,20 +35,18 @@ class _AddPageState extends State<AddPage> {
 
   Future _getImage() async {
     await ImagePicker.pickImage(source: ImageSource.camera).then((img) {
-      setState(() {
-        _image = img;
-      });
+      bloc.setFoto(img);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
   }
-  
+
   @override
   Widget build(BuildContext context) {
+    _getCurrentLocation();
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         backgroundColor: CupertinoColors.white,
@@ -117,9 +118,7 @@ class _AddPageState extends State<AddPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: MapFoco(
-                        myPosition: _currentPosition,
-                      ),
+                      child: MapFoco(),
                     ),
                   ),
                   Divider(),
@@ -141,7 +140,7 @@ class _AddPageState extends State<AddPage> {
                     disabledColor: CupertinoColors.inactiveGray,
                     child: Text("Enviar"),
                     onPressed: () {
-                      print("Eniado");
+                      bloc.send( );
                     },
                   ),
                 ],
@@ -155,27 +154,14 @@ class _AddPageState extends State<AddPage> {
 }
 
 class MapFoco extends StatefulWidget {
-  final Position myPosition;
-
-  const MapFoco({Key key, this.myPosition}) : super(key: key);
   @override
   State<MapFoco> createState() => _MapFocoState();
 }
 
 class _MapFocoState extends State<MapFoco> {
+  final FocosBloc bloc = BlocProvider.getBloc<FocosBloc>();
   Completer<GoogleMapController> _controller = Completer();
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(-10.9689128, -37.0592988),
-    zoom: 16,
-  );
-
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(-10.9689128, -37.0592988),
-      tilt: 59.440717697143555,
-      zoom: 5.151926040649414);
-
+ 
   List<Marker> marcas = [];
 
   BitmapDescriptor myIcon;
@@ -195,7 +181,7 @@ class _MapFocoState extends State<MapFoco> {
         icon: myIcon,
         draggable: false,
         infoWindow: InfoWindow(
-            title: 'O fco esta aqui!!!',
+            title: 'O foco esta aqui!!!',
             onTap: () {
               print('Foco 1');
             }),
@@ -209,21 +195,28 @@ class _MapFocoState extends State<MapFoco> {
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      rotateGesturesEnabled: true,
-      mapType: MapType.normal,
-      initialCameraPosition: _kGooglePlex,
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
-      },
-      myLocationButtonEnabled: true,
-      myLocationEnabled: true,
-      markers: Set.from(marcas),
-    );
-  }
-
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+    return StreamBuilder(
+        stream: bloc.coordenadas,
+        builder: (context, AsyncSnapshot<LatLng> snapshot) {
+          if (snapshot.hasData) {
+            return GoogleMap(
+              rotateGesturesEnabled: true,
+              mapType: MapType.normal,
+              initialCameraPosition: CameraPosition(
+                target: snapshot.data,
+                zoom: 16,
+              ),
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              markers: Set.from(marcas),
+            );
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+          return Center(child: CircularProgressIndicator());
+        });
   }
 }
