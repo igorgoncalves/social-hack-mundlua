@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class FocoDetailPage extends StatelessWidget {
+class FocoDetailPage extends StatefulWidget {
+  @override
+  _FocoDetailPageState createState() => _FocoDetailPageState();
+}
+
+class _FocoDetailPageState extends State<FocoDetailPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
