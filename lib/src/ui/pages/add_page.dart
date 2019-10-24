@@ -146,6 +146,7 @@ class _AddPageState extends State<AddPage> {
                       bloc.send().then((res) {
                         bloc.changeIsLoading(false);
                         bloc.setFoto(null);
+                        bloc.fetchFocos();
                         //TODO: Alerta de envio completo
                       });
                     },

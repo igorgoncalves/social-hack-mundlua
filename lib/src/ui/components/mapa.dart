@@ -23,8 +23,8 @@ class MapVetoresState extends State<MapVetores> {
   Completer<GoogleMapController> _controller = Completer();
 
   Position _currentPosition = Position(latitude: 0, longitude: 0);
-
-  BitmapDescriptor myIcon;
+  
+  Uint8List markerIcon = Uint8List(0);
 
   List<Marker> marcas = [];
   List<Circle> circulos = [];
@@ -46,7 +46,7 @@ class MapVetoresState extends State<MapVetores> {
   CameraPosition buildCameraPosition() {
     return CameraPosition(
       target: LatLng(_currentPosition.latitude, _currentPosition.longitude),
-      zoom: 8,
+      zoom: 16,
     );
   }
 
@@ -64,6 +64,10 @@ class MapVetoresState extends State<MapVetores> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
+    getBytesFromAsset('assets/icons/marker.png', 100).then((onValue){
+      markerIcon = onValue;
+    });
     // MediaQueryData mediaQueryData = MediaQuery.of(context);
     // ImageConfiguration imageConfig =
     //     ImageConfiguration(devicePixelRatio: mediaQueryData.devicePixelRatio);
@@ -104,10 +108,7 @@ class MapVetoresState extends State<MapVetores> {
   Widget build(BuildContext context) {
     _getCurrentLocation();
     bloc.fetchFocos();
-    Uint8List markerIcon = Uint8List(0);
-    getBytesFromAsset('assets/icons/marker.png', 100).then((onValue){
-      markerIcon = onValue;
-    });
+    
     return StreamBuilder(
       stream: bloc.allFocos,
       builder: (context, AsyncSnapshot<List<Foco>> snapshot) {        

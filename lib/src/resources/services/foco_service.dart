@@ -15,7 +15,7 @@ class FocoService {
     var item = this._focoDataAccess;
     item.set('coordenadas', geoPoint);
     item.set('foto', parseFile);
-
+  
     return await item.save();
   }
 
