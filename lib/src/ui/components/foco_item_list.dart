@@ -9,14 +9,17 @@ class FocoItemWidget extends StatelessWidget {
   final double lat;
   final double lng;
   final String imagem;
+  final DateTime data;
 
   const FocoItemWidget({
     Key key,
     @required this.lat,
     @required this.lng,
     @required this.imagem,
+    @required this.data,
   })  : assert(lat != null),
         assert(lng != null),
+        assert(data != null),
         assert(imagem != null),
         super(key: key);
 
@@ -56,7 +59,7 @@ class FocoItemWidget extends StatelessWidget {
                       fontSize: 24),
                 )),
                 Text(
-                  '${formatDate(DateTime.now(), [dd, '/', mm, '/', yy])}',
+                  '${formatDate(data, [dd, '/', mm, '/', yy])}',
                   style: TextStyle(
                       fontSize: 16, color: CupertinoColors.inactiveGray),
                 ),

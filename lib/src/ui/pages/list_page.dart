@@ -47,7 +47,8 @@ class _ListPageState extends State<ListPage> {
       itemBuilder: (BuildContext context, int index) => FocoItemWidget(
         lat: pontosDeFoco[index].coordenadas.latitude,
         lng: pontosDeFoco[index].coordenadas.longitude,
-        imagem: pontosDeFoco[index].imagem.url,
+        imagem: pontosDeFoco[index].imagem.url,   
+        data: pontosDeFoco[index].createdAt,     
       ),
       itemCount: pontosDeFoco.length,
     );

@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vetores/src/bloc/focos_bloc.dart';
+import 'package:vetores/src/config/theme_config.dart';
 
 class AddPage extends StatefulWidget {
   @override
@@ -17,16 +18,12 @@ class AddPage extends StatefulWidget {
 class _AddPageState extends State<AddPage> {
   final FocosBloc bloc = BlocProvider.getBloc<FocosBloc>();
 
-  Position _currentPosition;
-  File _image;
-
   void _getCurrentLocation() {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-          print(position);
       bloc.setCoordenadas(LatLng(position.latitude, position.longitude));
     }).catchError((e) {
       print(e);
@@ -47,6 +44,7 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     _getCurrentLocation();
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         backgroundColor: CupertinoColors.white,
@@ -58,14 +56,14 @@ class _AddPageState extends State<AddPage> {
       child: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: CupertinoScrollbar(
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
                   Padding(
                     padding:
-                        const EdgeInsets.only(right: 128, top: 32, bottom: 32),
+                        const EdgeInsets.only(right: 120, top: 32, bottom: 32),
                     child: Column(
                       children: <Widget>[
                         Text(
@@ -76,40 +74,31 @@ class _AddPageState extends State<AddPage> {
                       ],
                     ),
                   ),
-                  Text("Registro fotográfico"),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                    child: Text("Registro fotográfico"),
+                  ),
+
                   Container(
                     width: 200,
                     height: 200,
+                    margin: EdgeInsets.fromLTRB(0, 8.0, 0, 0),
                     padding: EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: _image == null
-                        ? OutlineButton(
-                            borderSide: BorderSide(
-                                color: CupertinoColors.activeBlue, width: 4),
-                            onPressed: () {
-                              _getImage();
-                            },
-                            child: Center(
-                              heightFactor: 250,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.camera_alt),
-                                  Text('Tire uma foto do foco')
-                                ],
-                              ),
-                            ),
-                          )
-                        : Image.file(
-                            _image,
-                            fit: BoxFit.scaleDown,
-                          ),
+                    child: StreamBuilder(
+                        stream: bloc.foto,
+                        builder: (context, AsyncSnapshot<File> snapshot) {
+                          return buildContainerImage(snapshot);
+                        }),
                   ),
                   Divider(),
-                  Text("Localização"),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                    child: Text("Localização"),
+                  ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
                     child: Container(
@@ -138,15 +127,59 @@ class _AddPageState extends State<AddPage> {
                     borderRadius: BorderRadius.circular(8),
                     color: CupertinoColors.activeGreen,
                     disabledColor: CupertinoColors.inactiveGray,
-                    child: Text("Enviar"),
+                    child: StreamBuilder(
+                      stream: bloc.isLoading,
+                      builder: (context, AsyncSnapshot<bool> snapshot) {
+                        if (snapshot.hasData && snapshot.data) {
+                          return Center(
+                              child: CircularProgressIndicator(
+                            backgroundColor: CupertinoColors.activeGreen,
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Colors.white),
+                          ));
+                        }
+                        return Text("Enviar");
+                      },
+                    ),
                     onPressed: () {
-                      bloc.send( );
+                      bloc.changeIsLoading(true);
+                      bloc.send().then((res) {
+                        bloc.changeIsLoading(false);
+                        bloc.setFoto(null);
+                        //TODO: Alerta de envio completo
+                      });
                     },
                   ),
                 ],
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildContainerImage(AsyncSnapshot<File> snapshot) {
+    if (snapshot.hasData) {
+      return Image.file(
+        snapshot.data,
+        fit: BoxFit.scaleDown,
+      );
+    }
+
+    return OutlineButton(
+      borderSide: BorderSide(color: CupertinoColors.inactiveGray, width: 4),
+      onPressed: () {
+        _getImage();
+      },
+      child: Center(
+        heightFactor: 250,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.camera_alt),
+            Text('Tire uma foto do foco')
+          ],
         ),
       ),
     );
@@ -161,7 +194,7 @@ class MapFoco extends StatefulWidget {
 class _MapFocoState extends State<MapFoco> {
   final FocosBloc bloc = BlocProvider.getBloc<FocosBloc>();
   Completer<GoogleMapController> _controller = Completer();
- 
+
   List<Marker> marcas = [];
 
   BitmapDescriptor myIcon;
