@@ -9,6 +9,7 @@ Future main() async {
     DotEnv().env['PARSE_APP_ID'],
     DotEnv().env['PARSE_APP_URL'],
     clientKey: DotEnv().env['PARSE_APP_CLINT_KEY'],
+    debug: true
   );
 
   runApp(MyApp());

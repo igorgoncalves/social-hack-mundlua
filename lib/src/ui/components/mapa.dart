@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vetores/src/bloc/focos_bloc.dart';
@@ -19,10 +22,9 @@ class MapVetoresState extends State<MapVetores> {
 
   Completer<GoogleMapController> _controller = Completer();
 
-  Position _currentPosition;
+  Position _currentPosition = Position(latitude: 0, longitude: 0);
 
   BitmapDescriptor myIcon;
-  CameraPosition _myPosition;
 
   List<Marker> marcas = [];
   List<Circle> circulos = [];
@@ -35,25 +37,40 @@ class MapVetoresState extends State<MapVetores> {
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-      print(position);
       _currentPosition = position;
     }).catchError((e) {
       print(e);
     });
   }
 
+  CameraPosition buildCameraPosition() {
+    return CameraPosition(
+      target: LatLng(_currentPosition.latitude, _currentPosition.longitude),
+      zoom: 8,
+    );
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+        .buffer
+        .asUint8List();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(
-              size: Size(0.0313, 0.0313),
-            ),
-            'assets/icons/marker.png')
-        .then((onValue) {
-      myIcon = onValue;
-    });
+    // MediaQueryData mediaQueryData = MediaQuery.of(context);
+    // ImageConfiguration imageConfig =
+    //     ImageConfiguration(devicePixelRatio: mediaQueryData.devicePixelRatio);
+    // BitmapDescriptor.fromAssetImage(imageConfig, 'assets/icons/marker.png')
+    //     .then((onValue) {
+    //   myIcon = onValue;
+    // });
 
     // Circle example
     // circulos.add(
@@ -86,17 +103,14 @@ class MapVetoresState extends State<MapVetores> {
   @override
   Widget build(BuildContext context) {
     _getCurrentLocation();
-
-    _myPosition = CameraPosition(
-      target: LatLng(-10.972310, -37.057430),
-      zoom: 20,
-    );
-
     bloc.fetchFocos();
-
+    Uint8List markerIcon = Uint8List(0);
+    getBytesFromAsset('assets/icons/marker.png', 100).then((onValue){
+      markerIcon = onValue;
+    });
     return StreamBuilder(
       stream: bloc.allFocos,
-      builder: (context, AsyncSnapshot<List<Foco>> snapshot) {
+      builder: (context, AsyncSnapshot<List<Foco>> snapshot) {        
         if (snapshot.hasData) {
           // List<Foco> pontosDeFoco = List<Foco> snapshot.data.;
           // return Text(snapshot.data[0].lat);
@@ -109,7 +123,7 @@ class MapVetoresState extends State<MapVetores> {
                 markerId: MarkerId('${data.imagem.name}'),
                 draggable: false,
                 flat: true,
-                icon: myIcon,
+                icon: BitmapDescriptor.fromBytes(markerIcon),
                 infoWindow: InfoWindow(
                   title: data.imagem.name,
                   snippet: data.imagem.url,
@@ -137,7 +151,7 @@ class MapVetoresState extends State<MapVetores> {
           return GoogleMap(
             rotateGesturesEnabled: true,
             mapType: MapType.normal,
-            initialCameraPosition: _myPosition,
+            initialCameraPosition: buildCameraPosition(),
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
