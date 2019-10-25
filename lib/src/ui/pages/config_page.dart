@@ -77,12 +77,20 @@ class _ConfigPageState extends State<ConfigPage> {
             Expanded(
               child: Text('Deseja compartilhar seus dados?'),
             ),
-            CupertinoSwitch(
-              activeColor: ThemeConfig().primaryColor[100],
-              onChanged: (bool value) {
-                bloc.changePrefs(Preferencias(sharePersonalData: value));
-              },
-              value: prefs.sharePersonalData,
+            StreamBuilder<Preferencias>(
+              stream: bloc.allPreferences,
+              builder: (context, snapshot) {
+                if(snapshot.hasData){
+                  return CupertinoSwitch(
+                    activeColor: ThemeConfig().primaryColor[100],
+                    onChanged: (bool value) {
+                      bloc.changePrefs(Preferencias(sharePersonalData: value));
+                    },
+                    value: snapshot.data.sharePersonalData,
+                  );
+                }
+                return Center(child: CircularProgressIndicator());
+              }
             ),
           ],
         ),
