@@ -15,7 +15,7 @@ class Foco extends ParseObject implements ParseCloneable {
   static const String _keyTableName = 'Foco';
   static const String keyCoordenadas = 'coordenadas';
   static const String keyImagem = 'foto';
-  static const String keyCreatedAt = 'createdAt';
+  static const String keyAprovado = 'aprovado';  
   
 
   ParseGeoPoint get coordenadas => get<ParseGeoPoint>(keyCoordenadas);
@@ -24,7 +24,7 @@ class Foco extends ParseObject implements ParseCloneable {
   ParseFile get imagem => get<ParseFile>(keyImagem);
   set imagem(ParseFile imagem) => set<ParseFile>(keyImagem, imagem);  
   
-  DateTime get criadoEm => get<DateTime>(keyCreatedAt);
-  set criadoEm(DateTime criadoEm) => set<DateTime>(keyCreatedAt, criadoEm);
+  bool get aprovado => get<bool>(keyAprovado);
+  set aprovado(bool aprovado) => set<bool>(keyAprovado, aprovado);
   
 }

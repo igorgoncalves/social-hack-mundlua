@@ -15,12 +15,17 @@ class FocoService {
     var item = this._focoDataAccess;
     item.set('coordenadas', geoPoint);
     item.set('foto', parseFile);
+    item.set('aprovado', false);
   
     return await item.save();
   }
 
   Future getAll() async {
-    return await this._focoDataAccess.getAll().then((response) {
+    var queryBuilder = QueryBuilder<Foco>(_focoDataAccess)
+      ..whereEqualTo(Foco.keyAprovado, true)
+      ..orderByDescending("createdAt");
+
+    return await queryBuilder.query().then((response) {
       return response.results.cast<Foco>();
     }).catchError((e){
       print(e);
