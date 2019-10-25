@@ -1,5 +1,3 @@
-
-
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +31,7 @@ class FocoItemWidget extends StatelessWidget {
             Row(
               children: <Widget>[
                 Text(
-                  'Lat: $lat | Long: $lng',
+                  'Lat: $lat\nLong: $lng',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 )
               ],
