@@ -15,7 +15,7 @@ class _ConfigPageState extends State<ConfigPage> {
   final PreferenciasBloc bloc = BlocProvider.getBloc<PreferenciasBloc>();
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     bloc.loadPrefs();
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
@@ -78,61 +78,61 @@ class _ConfigPageState extends State<ConfigPage> {
               child: Text('Deseja compartilhar seus dados?'),
             ),
             StreamBuilder<Preferencias>(
-              stream: bloc.allPreferences,
-              builder: (context, snapshot) {
-                if(snapshot.hasData){
-                  return CupertinoSwitch(
-                    activeColor: ThemeConfig().primaryColor[100],
-                    onChanged: (bool value) {
-                      bloc.changePrefs(Preferencias(sharePersonalData: value));
-                    },
-                    value: snapshot.data.sharePersonalData,
-                  );
-                }
-                return Center(child: CircularProgressIndicator());
-              }
-            ),
+                stream: bloc.allPreferences,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return CupertinoSwitch(
+                      activeColor: ThemeConfig().primaryColor[100],
+                      onChanged: (bool value) {
+                        bloc.changePrefs(
+                            Preferencias(sharePersonalData: value));
+                      },
+                      value: snapshot.data.sharePersonalData,
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                }),
           ],
         ),
-        Divider(),
-        Text('Entre em contato'),
-        Divider(),
-        Text('Ajuda sobre o aplicativo'),
-        Divider(),
-        CupertinoButton(
-          padding: EdgeInsets.all(0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Sobre o aplicativo',
-              style: TextStyle(color: CupertinoColors.black),
-            ),
-          ),
-          onPressed: () {
-            print('AboutPage');
-            Navigator.of(context).push(
-              CupertinoPageRoute(
-                title: 'Teste',
-                builder: (context) {
-                  return AboutPage();
-                },
-              ),
-            );
-          },
-        ),
-        Divider(),
-        CupertinoButton(
-          padding: EdgeInsets.all(0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Deletar todos os meus dados',
-            ),
-          ),
-          onPressed: () {
-            print('Deletar todos os meus dados');
-          },
-        ),
+        // Divider(),
+        // Text('Entre em contato'),
+        // Divider(),
+        // Text('Ajuda sobre o aplicativo'),
+        // Divider(),
+        // CupertinoButton(
+        //   padding: EdgeInsets.all(0),
+        //   child: Align(
+        //     alignment: Alignment.centerLeft,
+        //     child: Text(
+        //       'Sobre o aplicativo',
+        //       style: TextStyle(color: CupertinoColors.black),
+        //     ),
+        //   ),
+        //   onPressed: () {
+        //     print('AboutPage');
+        //     Navigator.of(context).push(
+        //       CupertinoPageRoute(
+        //         title: 'Teste',
+        //         builder: (context) {
+        //           return AboutPage();
+        //         },
+        //       ),
+        //     );
+        //   },
+        // ),
+        // Divider(),
+        // CupertinoButton(
+        //   padding: EdgeInsets.all(0),
+        //   child: Align(
+        //     alignment: Alignment.centerLeft,
+        //     child: Text(
+        //       'Deletar todos os meus dados',
+        //     ),
+        //   ),
+        //   onPressed: () {
+        //     print('Deletar todos os meus dados');
+        //   },
+        // ),
         Divider(),
         Text(
           'Versão 0.1.0',
