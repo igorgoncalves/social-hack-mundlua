@@ -23,7 +23,7 @@ class MapVetoresState extends State<MapVetores> {
   Completer<GoogleMapController> _controller = Completer();
 
   Position _currentPosition = Position(latitude: 0, longitude: 0);
-  
+
   Uint8List markerIcon = Uint8List(0);
 
   List<Marker> marcas = [];
@@ -64,8 +64,8 @@ class MapVetoresState extends State<MapVetores> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
-    getBytesFromAsset('assets/icons/marker.png', 100).then((onValue){
+
+    getBytesFromAsset('assets/icons/marker.png', 100).then((onValue) {
       markerIcon = onValue;
     });
     // MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -108,10 +108,10 @@ class MapVetoresState extends State<MapVetores> {
   Widget build(BuildContext context) {
     _getCurrentLocation();
     bloc.fetchFocos();
-    
+
     return StreamBuilder(
       stream: bloc.allFocos,
-      builder: (context, AsyncSnapshot<List<Foco>> snapshot) {        
+      builder: (context, AsyncSnapshot<List<Foco>> snapshot) {
         if (snapshot.hasData) {
           // List<Foco> pontosDeFoco = List<Foco> snapshot.data.;
           // return Text(snapshot.data[0].lat);
@@ -125,21 +125,21 @@ class MapVetoresState extends State<MapVetores> {
                 draggable: false,
                 flat: true,
                 icon: BitmapDescriptor.fromBytes(markerIcon),
-                infoWindow: InfoWindow(
-                  title: data.imagem.name,
-                  snippet: data.imagem.url,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      CupertinoPageRoute(
-                        title: 'Detalhes do foco: ${data.imagem.name}',
-                        settings: RouteSettings(name: '/details'),
-                        builder: (context) {
-                          return FocoDetailPage();
-                        },
-                      ),
-                    );
-                  },
-                ),
+                // infoWindow: InfoWindow(
+                //   title: data.imagem.name,
+                //   snippet: data.imagem.url,
+                //   onTap: () {
+                //     Navigator.of(context).push(
+                //       CupertinoPageRoute(
+                //         title: 'Detalhes do foco: ${data.imagem.name}',
+                //         settings: RouteSettings(name: '/details'),
+                //         builder: (context) {
+                //           return FocoDetailPage();
+                //         },
+                //       ),
+                //     );
+                //   },
+                // ),
                 onTap: () {
                   print('${data.imagem.name}');
                 },
