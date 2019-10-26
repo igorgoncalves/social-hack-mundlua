@@ -14,7 +14,7 @@ Future main() async {
   await DotEnv().load('.env');
   await Parse().initialize(
       DotEnv().env['PARSE_APP_ID'], DotEnv().env['PARSE_APP_URL'],
-      clientKey: DotEnv().env['PARSE_APP_CLINT_KEY'], debug: true);
+      clientKey: DotEnv().env['PARSE_APP_CLINT_KEY'], debug: false);
   // runApp(MyApp());
 
   FlutterError.onError = (details, {bool forceReport = false}) {

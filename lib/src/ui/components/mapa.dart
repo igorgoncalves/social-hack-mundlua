@@ -10,7 +10,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vetores/src/bloc/focos_bloc.dart';
 import 'package:vetores/src/models/foco.model.dart';
-import 'package:vetores/src/ui/pages/focodetail_page.dart';
 
 class MapVetores extends StatefulWidget {
   @override
