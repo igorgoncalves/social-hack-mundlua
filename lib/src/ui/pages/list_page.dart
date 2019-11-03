@@ -43,15 +43,25 @@ class _ListPageState extends State<ListPage> {
   }
 
   Widget _buildListFocos(List<Foco> pontosDeFoco) {
-    return ListView.builder(
+    return ListView(
+      children: pontosDeFoco.map((f) {
+        return FocoItemWidget(
+          imagem: f.imagem?.download(),
+          lat: f.coordenadas.latitude,
+          lng: f.coordenadas.longitude,
+          data: f.createdAt,
+        );
+      }).toList(),
+    );
+    /* return ListView.builder(
       itemBuilder: (BuildContext context, int index) => FocoItemWidget(
         lat: pontosDeFoco[index].coordenadas.latitude,
         lng: pontosDeFoco[index].coordenadas.longitude,
-        imagem: pontosDeFoco[index].imagem.url,   
+        imagem: pontosDeFoco[index].imagem?.download(),   
         data: pontosDeFoco[index].createdAt,     
       ),
       itemCount: pontosDeFoco.length,
-    );
+    );*/
   }
 }
 

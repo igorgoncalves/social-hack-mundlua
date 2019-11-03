@@ -23,7 +23,7 @@ class FocoService {
   Future getAll() async {
     var queryBuilder = QueryBuilder<Foco>(_focoDataAccess)
       ..whereEqualTo(Foco.keyAprovado, true)
-      ..orderByDescending("createdAt");
+      ..orderByDescending("createdAt");      
 
     return await queryBuilder.query().then((response) {
       return response.results.cast<Foco>();

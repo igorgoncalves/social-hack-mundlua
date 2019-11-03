@@ -32,7 +32,7 @@ class _AddPageState extends State<AddPage> {
   }
 
   Future _getImage() async {
-    await ImagePicker.pickImage(source: ImageSource.camera).then((img) {
+    await ImagePicker.pickImage(source: ImageSource.camera, maxHeight: 1024, maxWidth: 1024).then((img) {
       bloc.setFoto(img);
     });
   }

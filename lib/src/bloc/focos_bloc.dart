@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
@@ -12,6 +13,7 @@ class FocosBloc extends BlocBase {
 
   final _coordenadasController = BehaviorSubject<LatLng>();
   final _fotoController = BehaviorSubject<File>();
+  final _listFotosController = BehaviorSubject<List<File>>();
   final _focosController = BehaviorSubject<List<Foco>>();
   final _loadingController = BehaviorSubject<bool>();
 
@@ -28,11 +30,15 @@ class FocosBloc extends BlocBase {
   Observable<File> get foto => _fotoController.stream;
   
   Observable<bool> get isLoading => _loadingController.stream;
+
+  Observable<List<File>> get listfotos => _listFotosController.stream;
   
   
   fetchFocos() async {
     List<Foco> focos = await _service.getAll();
     // Adiciona na transmissão do canal de stream e notifica os observadores
+    // focos.forEach((f) { f.imagem.download(); }
+
     _focosController.sink.add(focos);
   }
   
@@ -49,7 +55,7 @@ class FocosBloc extends BlocBase {
   }
 
   send() async {  
-    
+
     return _service.add(_coordenadasController.value, _fotoController.value);
   }
 
@@ -60,6 +66,8 @@ class FocosBloc extends BlocBase {
     _coordenadasController.close();
     _fotoController.close();
     _loadingController.close();
+    _listFotosController.close();
+
     super.dispose();  
   } 
 }
