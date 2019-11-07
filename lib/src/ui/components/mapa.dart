@@ -30,13 +30,16 @@ class MapVetoresState extends State<MapVetores> {
   List<LatLng> pontos = [];
   List<Polygon> poligonos = [];
 
-  void _getCurrentLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  void _getCurrentLocation() {  
+    // final Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
 
-    geolocator
+    Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-      _currentPosition = position;
+          setState(() {
+            _currentPosition = position; 
+            _goLocation(buildCameraPosition());
+          });      
     }).catchError((e) {
       print(e);
     });
@@ -63,9 +66,14 @@ class MapVetoresState extends State<MapVetores> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
+    _getCurrentLocation();
+    bloc.fetchFocos();
 
     getBytesFromAsset('assets/icons/marker.png', 100).then((onValue) {
-      markerIcon = onValue;
+      setState(() {
+        markerIcon = onValue;
+      });
     });
     // MediaQueryData mediaQueryData = MediaQuery.of(context);
     // ImageConfiguration imageConfig =
@@ -102,11 +110,14 @@ class MapVetoresState extends State<MapVetores> {
     //       points: pontos),
     // );
   }
-
+  
+  Future<void> _goLocation(CameraPosition cameraPosition) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    
+  }
   @override
-  Widget build(BuildContext context) {
-    _getCurrentLocation();
-    bloc.fetchFocos();
+  Widget build(BuildContext context) {    
 
     return StreamBuilder(
       stream: bloc.allFocos,

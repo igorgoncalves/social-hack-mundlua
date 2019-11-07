@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:vetores/src/config/theme_config.dart';
 
 class FocoItemWidget extends StatelessWidget {
   final double lat;
   final double lng;
-  final String imagem;
+  final Future<ParseFile> imagem;
   final DateTime data;
 
   const FocoItemWidget({
@@ -38,11 +41,24 @@ class FocoItemWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25.0),
-                child: Image.network(
-                  imagem,
-                  fit: BoxFit.fitWidth,
+              child: Container(
+                width: 200,
+                height: 200,
+                margin: EdgeInsets.fromLTRB(0, 8.0, 0, 0),
+                padding: EdgeInsets.all(16.0),
+                child: FutureBuilder<ParseFile>(
+                  future: imagem,
+                  builder: (context, projectSnap) {
+                    if (projectSnap.hasData) {
+                      return ClipRRect(
+                          borderRadius: BorderRadius.circular(25.0),
+                          child: Image.file(
+                            projectSnap.data.file,
+                            fit: BoxFit.scaleDown,
+                          ));
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
                 ),
               ),
             ),
