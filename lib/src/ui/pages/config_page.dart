@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:vetores/src/bloc/preferencias_bloc.dart';
 import 'package:vetores/src/config/theme_config.dart';
 import 'package:vetores/src/models/preferencias.model.dart';
-import 'package:vetores/src/ui/pages/about_page.dart';
 
 class ConfigPage extends StatefulWidget {
   @override
@@ -135,7 +134,7 @@ class _ConfigPageState extends State<ConfigPage> {
         // ),
         Divider(),
         Text(
-          'Versão 0.1.0',
+          'Versão 0.1.1',
           style: TextStyle(color: CupertinoColors.lightBackgroundGray),
         )
       ],

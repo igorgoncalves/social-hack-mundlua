@@ -12,6 +12,26 @@ import 'package:vetores/src/bloc/focos_bloc.dart';
 import 'package:vetores/src/models/foco.model.dart';
 
 class MapVetores extends StatefulWidget {
+  final bool myLocationButtonEnabled;
+  final bool myLocationEnabled;
+
+  final bool rotateGesturesEnabled;
+  final bool tiltGesturesEnabled;
+  final bool scrollGesturesEnabled;
+  final bool zoomGesturesEnabled;
+
+  final bool markers;
+
+  MapVetores({
+    @required this.rotateGesturesEnabled,
+    this.myLocationButtonEnabled = true,
+    this.myLocationEnabled = true,
+    this.scrollGesturesEnabled = true,
+    this.tiltGesturesEnabled = true,
+    this.zoomGesturesEnabled = true,
+    this.markers = true,
+  });
+
   @override
   State<MapVetores> createState() => MapVetoresState();
 }
@@ -26,20 +46,22 @@ class MapVetoresState extends State<MapVetores> {
   Uint8List markerIcon = Uint8List(0);
 
   List<Marker> marcas = [];
-  List<Circle> circulos = [];
-  List<LatLng> pontos = [];
-  List<Polygon> poligonos = [];
+  // List<Circle> circulos = [];
+  // List<LatLng> pontos = [];
+  // List<Polygon> poligonos = [];
 
-  void _getCurrentLocation() {  
+  void _getCurrentLocation() {
     // final Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
 
     Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-          setState(() {
-            _currentPosition = position; 
-            _goLocation(buildCameraPosition());
-          });      
+      setState(() {
+        _currentPosition = position;
+        _goLocation(
+          buildCameraPosition(),
+        );
+      });
     }).catchError((e) {
       print(e);
     });
@@ -66,7 +88,7 @@ class MapVetoresState extends State<MapVetores> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
+
     _getCurrentLocation();
     bloc.fetchFocos();
 
@@ -90,7 +112,7 @@ class MapVetoresState extends State<MapVetores> {
     //     strokeColor: CupertinoColors.black,
     //     center: LatLng(-10.9689128, -37.0592988),
     //     radius: 50,
-    //     circleId: CircleId('Meu ovo'),
+    //     circleId: CircleId('Um Circulo),
     //     onTap: () {
     //       print('Meu ovo');
     //     },
@@ -110,15 +132,16 @@ class MapVetoresState extends State<MapVetores> {
     //       points: pontos),
     // );
   }
-  
+
   Future<void> _goLocation(CameraPosition cameraPosition) async {
     final GoogleMapController controller = await _controller.future;
-    controller.moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    
+    controller.moveCamera(
+      CameraUpdate.newCameraPosition(cameraPosition),
+    );
   }
-  @override
-  Widget build(BuildContext context) {    
 
+  @override
+  Widget build(BuildContext context) {
     return StreamBuilder(
       stream: bloc.allFocos,
       builder: (context, AsyncSnapshot<List<Foco>> snapshot) {
@@ -128,7 +151,8 @@ class MapVetoresState extends State<MapVetores> {
           print(snapshot.data);
           for (var data in snapshot.data) {
             print(
-                "lat: ${data.coordenadas.latitude} | lng:${data.coordenadas.longitude}");
+              "lat: ${data.coordenadas.latitude} | lng:${data.coordenadas.longitude}",
+            );
             marcas.add(
               Marker(
                 markerId: MarkerId('${data.imagem.name}'),
@@ -160,22 +184,29 @@ class MapVetoresState extends State<MapVetores> {
           }
 
           return GoogleMap(
-            rotateGesturesEnabled: true,
             mapType: MapType.normal,
             initialCameraPosition: buildCameraPosition(),
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            markers: Set.from(marcas),
+            markers: this.widget.markers
+                ? Set.from(marcas)
+                : Set.from(new List<Marker>()),
+            myLocationButtonEnabled: this.widget.myLocationButtonEnabled,
+            myLocationEnabled: this.widget.myLocationEnabled,
+            tiltGesturesEnabled: this.widget.tiltGesturesEnabled,
+            rotateGesturesEnabled: this.widget.rotateGesturesEnabled,
+            scrollGesturesEnabled: this.widget.scrollGesturesEnabled,
+            zoomGesturesEnabled: this.widget.zoomGesturesEnabled,
             // circles: Set.from(circulos),
             // polygons: Set.from(poligonos),
           );
         } else if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         }
-        return Center(child: CircularProgressIndicator());
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }

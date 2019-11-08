@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:vetores/src/ui/components/mapa.dart';
 
 class MapPage extends StatefulWidget {
@@ -27,21 +26,23 @@ class _MapPageState extends State<MapPage> {
       ),
       child: SafeArea(
         child: Center(
-          child: MapVetores(),
+          child: MapVetores(
+            rotateGesturesEnabled: true,
+          ),
         ),
       ),
     );
   }
 
-  _launchURL() async {
-    const url = 'https://vetores.app';
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        // forceWebView: true,
-      );
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // _launchURL() async {
+  //   const url = 'https://vetores.app';
+  //   if (await canLaunch(url)) {
+  //     await launch(
+  //       url,
+  //       // forceWebView: true,
+  //     );
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 }

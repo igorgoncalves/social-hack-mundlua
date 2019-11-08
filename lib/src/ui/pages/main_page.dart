@@ -16,6 +16,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
+        currentIndex: 1,
         backgroundColor: CupertinoColors.white,
         border:
             Border(top: BorderSide(color: CupertinoColors.lightBackgroundGray)),
@@ -67,7 +68,7 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
       tabBuilder: (context, i) {
-        var pages = [MapPage(), AddPage(), ListPage(), ConfigPage()];
+        final pages = [MapPage(), AddPage(), ListPage(), ConfigPage()];
         return CupertinoTabView(
           builder: (context) {
             return pages[i];

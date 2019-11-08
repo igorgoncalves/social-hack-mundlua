@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Adiciono o widget com as injeções de dependencia no top da 
-    // árvore de Widgets, assim todos podem ter acesso aos blocs    
+    // Adiciono o widget com as injeções de dependencia no top da
+    // árvore de Widgets, assim todos podem ter acesso aos blocs
     return Injector(
       child: buildCupertinoApp(),
     );
@@ -29,5 +29,5 @@ class MyApp extends StatelessWidget {
       theme: ThemeConfig().primaryTheme(),
       home: MainPage(),
     );
-  } 
+  }
 }

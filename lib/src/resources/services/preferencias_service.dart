@@ -14,6 +14,8 @@ class PreferenciasService {
       prefs.setBool('sharePersonalData', true);
     }
 
-    return Preferencias(sharePersonalData: prefs.getBool('sharePersonalData'));
+    return Preferencias(
+      sharePersonalData: prefs.getBool('sharePersonalData'),
+    );
   }
 }
