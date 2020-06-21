@@ -2,15 +2,9 @@
 
 MunD Lua - Flutter application.
 
-## Getting Started
+## Resumo
 
-This project is a starting point for a Flutter application.
+Passamos por um processo de design thinking, explorando dados e montando uma pequena rede pessoas que pudessem colaborar com ideias, validando e testando nossa proposta.    
+Desenvolvemos um modelo no Figma de média e alta fidelidade, testado com o público em diferentes versões, da quais um app simplificado, utilizando um conceito de timeline de conteúdo, se apropriando do formato de outras plataformas populares como instagram, facebook e tiktok.
+Chegamos ao final da maratona com app mobile multiplataforma (Android e IOs), desenvolvido em flutter e alimentado por uma interface web hospedada em um serviço chamado back4app. Nossa solução está pronta para produção e ser publicado nas lojas oficiais.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
