@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vetores/src/models/preferencias.model.dart';
+import 'package:mund_lua/src/models/preferencias.model.dart';
 
 class PreferenciasService {
   void save(Preferencias pref) async {

@@ -1,6 +1,6 @@
-# vetores
+# MunD Lua
 
-Vetores - Flutter application.
+MunD Lua - Flutter application.
 
 ## Getting Started
 

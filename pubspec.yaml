@@ -1,5 +1,5 @@
-name: vetores
-description: Vetores - Flutter application.
+name: mund_lua
+description: Mudn'D Lua - A plataforma de aprendizado para quem tem TDAH.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -27,13 +27,12 @@ dependencies:
   rxdart: ^0.18.0
   parse_server_sdk: ^1.0.24
   bloc_pattern: ^2.4.0+2
-  google_maps_flutter: ^0.5.21+7
-  geolocator: ^5.1.4+1
   shared_preferences: ^0.5.3+4
-  image_picker: ^0.6.1+8
   url_launcher: ^5.1.6
   date_format: ^1.0.6
-  sentry: any
+  youtube_player_flutter: ^7.0.0+3
+  photo_view: ^0.9.2
+  share: ^0.6.4+3
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +59,7 @@ flutter:
   assets:
     - .env
     - assets/icons/marker.png
+    - assets/divider.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -85,3 +85,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+module:   
+    androidX: true

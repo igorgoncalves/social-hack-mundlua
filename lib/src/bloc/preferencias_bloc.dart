@@ -1,7 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:vetores/src/models/preferencias.model.dart';
-import 'package:vetores/src/resources/services/preferencias_service.dart';
+import 'package:mund_lua/src/models/preferencias.model.dart';
+import 'package:mund_lua/src/resources/services/preferencias_service.dart';
 
 
 class PreferenciasBloc extends BlocBase {

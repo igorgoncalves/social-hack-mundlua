@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:vetores/src/bloc/focos_bloc.dart';
-import 'package:vetores/src/models/foco.model.dart';
-import 'package:vetores/src/resources/services/foco_service.dart';
+import 'package:mund_lua/src/resources/services/post_service.dart';
 
+import 'bloc/posts_bloc.dart';
 import 'bloc/preferencias_bloc.dart';
+import 'models/post.model.dart';
 import 'resources/services/preferencias_service.dart';
 
 class Injector extends StatelessWidget {
@@ -19,15 +19,15 @@ class Injector extends StatelessWidget {
       child: this.child,
       //Adicionar blocs para injeção de dependencia
       blocs: [
-        Bloc((i) => FocosBloc(i.get<FocoService>())),
+        Bloc((i) => PostsBloc(i.get<PostService>())),
         Bloc((i) => PreferenciasBloc(i.get<PreferenciasService>())),
       ],
       dependencies: [
         // Inject Models
-        Dependency((i) => Foco()),
+        Dependency((i) => Post()),
 
         // Inject Services
-        Dependency((i) => FocoService(i.get<Foco>())),
+        Dependency((i) => PostService(i.get<Post>())),
         Dependency((i) => PreferenciasService()),
       ],
     );

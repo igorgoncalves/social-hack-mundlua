@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:vetores/src/injector.dart';
-import 'package:vetores/src/ui/pages/main_page.dart';
-
 import 'config/theme_config.dart';
+import 'injector.dart';
+import 'ui/pages/main_page.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -21,12 +20,11 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  CupertinoApp buildCupertinoApp() {
-    return CupertinoApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Vetores',
+  MaterialApp buildCupertinoApp() {
+    return MaterialApp(      
+      title: 'Mun\'D lua',
       color: ThemeConfig().primaryColor,
-      theme: ThemeConfig().primaryTheme(),
+      // theme: ThemeConfig().primaryTheme(),
       home: MainPage(),
     );
   }
